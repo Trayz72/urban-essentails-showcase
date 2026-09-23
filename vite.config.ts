@@ -13,24 +13,42 @@
 //     server: { entry: "server" },
 //   },
 // });
+// import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+// import netlify from "@netlify/vite-plugin-tanstack-start";
+
+// const isNetlify = process.env.NETLIFY === "true";
+
+// export default defineConfig({
+//   // Render/self-hosted deployment:
+//   // Lovable's built-in Nitro remains enabled.
+
+//   // Netlify deployment:
+//   // Netlify's TanStack Start plugin handles SSR/functions instead.
+//   nitro: isNetlify ? false : undefined,
+
+//   tanstackStart: {
+//     server: {
+//       entry: "server",
+//     },
+//   },
+
+//   plugins: isNetlify ? [netlify()] : [],
+// });
+
+
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import netlify from "@netlify/vite-plugin-tanstack-start";
 
-const isNetlify = process.env.NETLIFY === "true";
+const isNetlify = process.env["NETLIFY"] === "true";
 
 export default defineConfig({
-  // Render/self-hosted deployment:
-  // Lovable's built-in Nitro remains enabled.
-
-  // Netlify deployment:
-  // Netlify's TanStack Start plugin handles SSR/functions instead.
-  nitro: isNetlify ? false : undefined,
-
   tanstackStart: {
     server: {
       entry: "server",
     },
   },
 
-  plugins: isNetlify ? [netlify()] : [],
+  vite: {
+    plugins: isNetlify ? [netlify()] : [],
+  },
 });
